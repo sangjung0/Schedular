@@ -2,7 +2,7 @@
 FROM ubuntu:22.04
 
 # 필요 종속성 설치
-RUN apt-get update && apt-get install -y wget
+RUN apt-get update && apt-get install -y wget x11vnc xvfb
 
 # jdk 환경 변수 설정
 ENV JAVA_VERSION=21
@@ -19,5 +19,6 @@ ENV PATH=${JAVA_HOME}/bin:${PATH}
 
 WORKDIR /workspace
 COPY .. /workspace/app
+
 # Xserver
-#ENV DISPLAY host.docker.internal:0.0
+ENV DISPLAY host.docker.internal:0.0
