@@ -1,5 +1,5 @@
 <div align="center">
-  <h1> Schedular </h1>
+  <h1> Scheduler </h1>
   
   [sangjung0](https://github.com/sangjung0), [gardenzeeero](https://github.com/gardenzeeero)
 
