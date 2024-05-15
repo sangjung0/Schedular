@@ -1,10 +1,10 @@
 package org.study.view;
 
 import org.study.GanttData;
+import org.study.SProcess;
+import org.study.scheduler.*;
 import org.study.view.button.SOpenFile;
 import org.study.view.button.SRun;
-import org.study.scheduler.Scheduler;
-import org.study.scheduler.Test;
 import org.study.view.label.SAverageWaitingTime;
 import org.study.view.label.STotalExecutionTime;
 import org.study.view.table.SInputTable;
@@ -20,10 +20,10 @@ import java.util.ArrayList;
  */
 public class SMain extends JFrame {
 
-    private static final int X = 100;
-    private static final int Y = 100;
+    private static final int X = 1000;
+    private static final int Y = 1000;
     private static final int WIDTH = 500;
-    private static final int HEIGHT = 500;
+    private static final int HEIGHT = 600;
     private static final int FRAME_PADDING = 20;
 
     private final SInputTable inputTable;
@@ -35,12 +35,12 @@ public class SMain extends JFrame {
     private final Gantt gantt;
 
     private final Storage storage;
-    private Scheduler scheduler;
+    private CPU scheduler;
 
 
     public SMain(){
         storage = new Storage();
-        scheduler = new Test();
+        scheduler = new CPU(new MultilevelQueue());
         inputTable = new SInputTable();
         outputTable = new SOutputTable();
         openFile = new SOpenFile();
@@ -64,7 +64,7 @@ public class SMain extends JFrame {
         });
         run.setCallback(()->{
             ArrayList<GanttData> dt = new ArrayList<>();
-            scheduler.run(storage, dt);
+            scheduler.start(storage, dt);
             outputTable.setData(storage);
             totalExecutionTime.setTime(outputTable.getTotalExecutionTime());
             averageWaitingTime.setTime(outputTable.getAverageWaitingTime());
