@@ -67,7 +67,7 @@ public class Gantt extends JScrollPane {
 
             constraints.ipady = 5;
             constraints.gridy = 2;
-            chart.add(new JLabel(String.valueOf(process.getExecutionTime())), constraints);
+            chart.add(new JLabel(String.valueOf(dt.time())), constraints);
 
             constraints.gridy = 3;
             chart.add(new JLabel(String.valueOf(process.getWaitingTime())), constraints);
