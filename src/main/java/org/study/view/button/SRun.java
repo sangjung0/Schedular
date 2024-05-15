@@ -27,7 +27,7 @@ public class SRun extends SButton{
 
     /**
      * 이벤트
-     * @param callback
+     * @param callback 이벤트 callback
      */
     public void setCallback(Callback callback){
         if (method != null) removeActionListener(method);
