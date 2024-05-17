@@ -6,7 +6,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class RoundRobin extends NonPreemptiveScheduler{
+/**
+ * RoundRobin 스케줄러 구현
+ */
+public class RoundRobin implements Scheduler {
 
     private static final int TIME_QUANTUM = 2;
 
@@ -23,34 +26,33 @@ public class RoundRobin extends NonPreemptiveScheduler{
     }
 
     @Override
-    protected int getRunTime(SProcess currentProcess) {
-        int remainTime;
-        remainTime = currentProcess.getBurstTime() - currentProcess.getExecutionTime();
+    public int getRunTime(SProcess currentProcess) {
+        int remainTime = currentProcess.getBurstTime() - currentProcess.getExecutionTime();
         return timeQuantum <= remainTime ? timeQuantum : remainTime;
     }
 
     @Override
-    protected void addReadyQ(SProcess process) {
+    public void addReadyQ(SProcess process) {
         readyQ.add(process);
     }
 
     @Override
-    protected boolean readyQIsEmpty() {
+    public boolean readyQIsEmpty() {
         return readyQ.isEmpty();
     }
 
     @Override
-    protected SProcess pollReadyQ() {
+    public SProcess pollReadyQ() {
         return readyQ.poll();
     }
 
     @Override
-    protected SProcess peekReadyQ() {
+    public SProcess peekReadyQ() {
         return readyQ.peek();
     }
 
     @Override
-    protected Iterator<SProcess> iterableReadyQ() {
+    public Iterator<SProcess> iterator() {
         return readyQ.iterator();
     }
 }

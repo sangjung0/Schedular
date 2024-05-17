@@ -5,17 +5,20 @@ import org.study.SProcess;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class MultilevelQueue extends Scheduler{
-    private static final int TIME_QUANTUM = 2;
+/**
+ * MultilevelQueue 스케줄러 구현
+ */
+public class MultilevelQueue implements Scheduler{
     private static final int CRITERION = 15;
     private static final int RR_TIME_RATIO = 8;
     private static final int FCFS_TIME_RATIO = 2;
 
-    private FCFS fcfs;
-    private RoundRobin roundRobin;
-    private int executionTime;
-    private boolean cntProcessIsForeground;
-    private int cntExecutionTime;
+    // Foreground = roundRobin, Background = fcfs
+    private final FCFS fcfs;
+    private final RoundRobin roundRobin;
+    private int executionTime; // 실행 해야 할 시간
+    private int cntExecutionTime; // 현재 프로세스가 실행 한 시간
+    private boolean cntProcessIsForeground; // 마지막으로 poll된 프로세스가 ForeGround 인지의 여부
 
     public MultilevelQueue(){
         fcfs = new FCFS();
@@ -26,25 +29,25 @@ public class MultilevelQueue extends Scheduler{
     }
 
     @Override
-    protected int getRunTime(SProcess currentProcess) {
+    public int getRunTime(SProcess currentProcess) {
         int time;
         cntExecutionTime += (time = cntProcessIsForeground ? roundRobin.getRunTime(currentProcess) : fcfs.getRunTime(currentProcess));
         return time;
     }
 
     @Override
-    protected void addReadyQ(SProcess process) {
+    public void addReadyQ(SProcess process) {
         if(process.getPriority() > CRITERION) roundRobin.addReadyQ(process);
         else fcfs.addReadyQ(process);
     }
 
     @Override
-    protected boolean readyQIsEmpty() {
+    public boolean readyQIsEmpty() {
         return roundRobin.readyQIsEmpty() && fcfs.readyQIsEmpty();
     }
 
     @Override
-    protected SProcess pollReadyQ() {
+    public SProcess pollReadyQ() {
         if (cntProcessIsForeground){
             if(cntExecutionTime < executionTime && !roundRobin.readyQIsEmpty()) return roundRobin.pollReadyQ();
             cntProcessIsForeground = false;
@@ -53,14 +56,17 @@ public class MultilevelQueue extends Scheduler{
         }
         if(cntExecutionTime < executionTime && !fcfs.readyQIsEmpty()) return fcfs.pollReadyQ();
         cntProcessIsForeground = true;
-        if(cntExecutionTime > executionTime) executionTime = executionTime * RR_TIME_RATIO/FCFS_TIME_RATIO;
+        /*
+        만약 FCFS 스케줄러를 통해 실행된 프로세스가 FCFS_TIME_RATIO 값 이상으로 실행됐다면, R&R 스케줄러가 그만큼 더 많은 CPU 타임을 가질 수 있게 함.
+         */
+        if(cntExecutionTime > executionTime) executionTime = cntExecutionTime * RR_TIME_RATIO/FCFS_TIME_RATIO;
         else executionTime = RR_TIME_RATIO;
         cntExecutionTime = 0;
         return roundRobin.pollReadyQ();
     }
 
     @Override
-    protected SProcess peekReadyQ() {
+    public SProcess peekReadyQ() {
         if (cntProcessIsForeground){
             if(cntExecutionTime < executionTime)return roundRobin.peekReadyQ();
             return fcfs.peekReadyQ();
@@ -70,12 +76,13 @@ public class MultilevelQueue extends Scheduler{
     }
 
     @Override
-    protected Iterator<SProcess> iterableReadyQ() {
+    public Iterator<SProcess> iterator() {
         ArrayList<SProcess> temp = new ArrayList<SProcess>();
-        Iterator<SProcess> iter = roundRobin.iterableReadyQ();
+        Iterator<SProcess> iter;
 
+        iter = roundRobin.iterator();
         while(iter.hasNext()) temp.add(iter.next());
-        iter = fcfs.iterableReadyQ();
+        iter = fcfs.iterator();
         while(iter.hasNext()) temp.add(iter.next());
 
         return temp.iterator();

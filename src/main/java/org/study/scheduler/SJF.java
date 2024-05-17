@@ -6,7 +6,10 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
-public class SJF extends NonPreemptiveScheduler{
+/**
+ * SJF 스케줄러 구현 클래스
+ */
+public class SJF implements Scheduler {
 
     private final PriorityQueue<SProcess> readyQ;
 
@@ -15,31 +18,39 @@ public class SJF extends NonPreemptiveScheduler{
     }
 
     @Override
-    protected void addReadyQ(SProcess process) {
+    public int getRunTime(SProcess currentProcess) {
+        return currentProcess.getBurstTime() - currentProcess.getExecutionTime();
+    }
+
+    @Override
+    public void addReadyQ(SProcess process) {
         readyQ.add(process);
     }
 
     @Override
-    protected boolean readyQIsEmpty() {
+    public boolean readyQIsEmpty() {
         return readyQ.isEmpty();
     }
 
     @Override
-    protected SProcess pollReadyQ() {
+    public SProcess pollReadyQ() {
         return readyQ.poll();
     }
 
     @Override
-    protected SProcess peekReadyQ() {
+    public SProcess peekReadyQ() {
         return readyQ.peek();
     }
 
     @Override
-    protected Iterator<SProcess> iterableReadyQ() {
+    public Iterator<SProcess> iterator() {
         return readyQ.iterator();
     }
 
-    protected static class BurstTimeComparator implements Comparator<SProcess> {
+    /**
+     * Burst Time 을 기준으로 하는 Comparator
+     */
+    private static class BurstTimeComparator implements Comparator<SProcess> {
         @Override
         public int compare(SProcess o1, SProcess o2) {
             return o1.getBurstTime() - o2.getBurstTime();

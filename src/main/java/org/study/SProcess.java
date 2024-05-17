@@ -1,5 +1,8 @@
 package org.study;
 
+/**
+ * 프로세스 데이터 클래스
+ */
 public class SProcess {
 
     private final String name;
@@ -36,9 +39,9 @@ public class SProcess {
     public SProcess copy(){
         return new SProcess(
                 name,
+                arrivalTime,
                 burstTime,
                 priority,
-                arrivalTime,
                 executionTime,
                 waitingTime,
                 responseTime,
