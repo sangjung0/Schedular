@@ -5,7 +5,10 @@ import org.study.SProcess;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class HRRN extends NonPreemptiveScheduler{
+/**
+ * HRRN 스케줄러 구현
+ */
+public class HRRN implements Scheduler {
 
     private final LinkedList<SProcess> readyQ;
 
@@ -14,24 +17,30 @@ public class HRRN extends NonPreemptiveScheduler{
     }
 
     @Override
-    protected void addReadyQ(SProcess process) {
+    public int getRunTime(SProcess currentProcess) {
+        return currentProcess.getBurstTime() - currentProcess.getExecutionTime();
+    }
+
+    @Override
+    public void addReadyQ(SProcess process) {
         readyQ.add(process);
     }
 
     @Override
-    protected boolean readyQIsEmpty() {
+    public boolean readyQIsEmpty() {
         return readyQ.isEmpty();
     }
 
     @Override
-    protected SProcess pollReadyQ() {
+    public SProcess pollReadyQ() {
         SProcess min;
         readyQ.remove((min = peekReadyQ()));
         return min;
     }
 
     @Override
-    protected SProcess peekReadyQ() {
+    public SProcess peekReadyQ() {
+        // 프로세스를 확인할 때마다 우선순위가 바뀌므로 항상 계산
         SProcess min;
         int time, temp;
 
@@ -47,7 +56,7 @@ public class HRRN extends NonPreemptiveScheduler{
     }
 
     @Override
-    protected Iterator<SProcess> iterableReadyQ() {
+    public Iterator<SProcess> iterator() {
         return readyQ.iterator();
     }
 }
