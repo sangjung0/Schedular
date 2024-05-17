@@ -6,7 +6,10 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
-public class FCFS extends NonPreemptiveScheduler{
+/**
+ * FCFS 스케줄러 구현
+ */
+public class FCFS implements Scheduler {
 
     private final PriorityQueue<SProcess> readyQ;
 
@@ -15,30 +18,38 @@ public class FCFS extends NonPreemptiveScheduler{
     }
 
     @Override
-    protected void addReadyQ(SProcess process) {
+    public int getRunTime(SProcess currentProcess) {
+        return currentProcess.getBurstTime() - currentProcess.getExecutionTime();
+    }
+
+    @Override
+    public void addReadyQ(SProcess process) {
         readyQ.add(process);
     }
 
     @Override
-    protected boolean readyQIsEmpty() {
+    public boolean readyQIsEmpty() {
         return readyQ.isEmpty();
     }
 
     @Override
-    protected SProcess pollReadyQ() {
+    public SProcess pollReadyQ() {
         return readyQ.poll();
     }
 
     @Override
-    protected SProcess peekReadyQ() {
+    public SProcess peekReadyQ() {
         return readyQ.peek();
     }
 
     @Override
-    protected Iterator<SProcess> iterableReadyQ() {
+    public Iterator<SProcess> iterator() {
         return readyQ.iterator();
     }
 
+    /**
+     * 도착 시간을 기준으로 하는 Comparator
+     */
     private static class ArrivalTimeComparator implements Comparator<SProcess> {
         @Override
         public int compare(SProcess o1, SProcess o2) {
