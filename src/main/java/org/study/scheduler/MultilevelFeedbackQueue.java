@@ -29,8 +29,8 @@ public class MultilevelFeedbackQueue implements Scheduler {
 
     @Override
     public int getRunTime(SProcess currentProcess) {
-        if(cntProcess == Q1) return Q1_TIME_QUANTUM;
-        if(cntProcess == Q2) return Q2_TIME_QUANTUM;
+        if(cntProcess == Q1) return q1.getRunTime(currentProcess);
+        if(cntProcess == Q2) return q2.getRunTime(currentProcess);
         return q3.getRunTime(currentProcess);
     }
 
