@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public abstract class STable extends JTable {
 
-    private static final int TABLE_COLUMN_MIN_WIDTH = 100;
+    private static final int TABLE_COLUMN_MIN_WIDTH = 140;
 
     /**
      * 컬럼 제목을 받아 테이블 생성
