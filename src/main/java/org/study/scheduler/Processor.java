@@ -25,10 +25,10 @@ public class Processor {
 
     /**
      * Processor 생성. 전달 받은 스케줄러를 기반으로 동작
-     * @param scheduler 스케줄러 객체
+     * @param scheduler 스케줄러 클래스
      */
-    public Processor(Scheduler scheduler){
-        this.scheduler = scheduler;
+    public <T extends Scheduler> Processor(Class<T> scheduler) throws Exception {
+        this.scheduler = scheduler.getDeclaredConstructor().newInstance();
         emptyProcess = new SProcess(WAIT, 0, 1, 0, 0, 0, 0, 0);
         jobQ = new PriorityQueue<SProcess>(new ArrivalTimeComparator());
         currentProcess = new SProcess(WAIT, 0, 0, 0, 0, 0, 0, 0);
@@ -47,7 +47,7 @@ public class Processor {
         int runTime;
 
         jobQ.addAll(processes);
-        while(!jobQ.isEmpty() || !scheduler.readyQIsEmpty()){
+        while(!jobQ.isEmpty() || !scheduler.readyQIsEmpty() || currentProcess != emptyProcess){
             runTime = schedule();
             if((g = getGanttData(runTime)) != null) ganttData.add(g);
             cpuCycle(runTime);
@@ -78,11 +78,11 @@ public class Processor {
 
         // 현재 프로세스 종료 여부 판단
         if (currentProcess.getBurstTime() <= currentProcess.getExecutionTime()){
-            currentProcess.setTurnAroundTime(cpuActivatedTime - currentProcess.getArrivalTime()); // 턴어라운드 타임
+            currentProcess.setTurnaroundTime(cpuActivatedTime - currentProcess.getArrivalTime()); // 턴어라운드 타임
         } else scheduler.addReadyQ(currentProcess);
 
         // 프로세스 선택
-        if(scheduler.readyQIsEmpty()) currentProcess = emptyProcess.copy();
+        if(scheduler.readyQIsEmpty()) currentProcess = emptyProcess;
         else currentProcess = scheduler.pollReadyQ();
 
         runTime = scheduler.getRunTime(currentProcess);
