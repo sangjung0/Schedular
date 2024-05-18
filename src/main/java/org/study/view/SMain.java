@@ -1,8 +1,8 @@
 package org.study.view;
 
-import org.study.GanttData;
-import org.study.SProcess;
 import org.study.scheduler.*;
+import org.study.view.barChart.BarChart;
+import org.study.view.button.SClear;
 import org.study.view.button.SOpenFile;
 import org.study.view.button.SRun;
 import org.study.view.label.SAverageWaitingTime;
@@ -13,7 +13,6 @@ import org.study.view.table.SOutputTable;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * GUI 메인 클래스
@@ -22,32 +21,36 @@ public class SMain extends JFrame {
 
     private static final int X = 1000;
     private static final int Y = 1000;
-    private static final int WIDTH = 500;
-    private static final int HEIGHT = 600;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 900;
     private static final int FRAME_PADDING = 20;
 
     private final SInputTable inputTable;
     private final SOutputTable outputTable;
     private final SOpenFile openFile;
+    private final SSchedulerSelector comboBox;
     private final SRun run;
+    private final SClear clear;
     private final STotalExecutionTime totalExecutionTime;
     private final SAverageWaitingTime averageWaitingTime;
     private final Gantt gantt;
+    private final BarChart barChart;
 
     private final Storage storage;
-    private CPU scheduler;
 
 
     public SMain(){
         storage = new Storage();
-        scheduler = new CPU(new MultilevelQueue());
-        inputTable = new SInputTable();
-        outputTable = new SOutputTable();
+        inputTable = new SInputTable(storage.getProcesses());
+        outputTable = new SOutputTable(storage.getScheduled());
         openFile = new SOpenFile();
         run = new SRun();
         totalExecutionTime = new STotalExecutionTime();
         averageWaitingTime = new SAverageWaitingTime();
-        gantt = new Gantt();
+        gantt = new Gantt(storage.getGanttData());
+        barChart = new BarChart();
+        comboBox = new SSchedulerSelector();
+        clear = new SClear();
 
         init();
         setEvent();
@@ -58,19 +61,28 @@ public class SMain extends JFrame {
      */
     private void setEvent(){
         openFile.setCallback(this, file -> {
-            storage.clear();
             storage.read(file); //에러 처리 필요
-            inputTable.setData(storage);
+            inputTable.reRandTable();
         });
         run.setCallback(()->{
-            ArrayList<GanttData> dt = new ArrayList<>();
-            scheduler.start(storage, dt);
-            outputTable.setData(storage);
-            totalExecutionTime.setTime(outputTable.getTotalExecutionTime());
-            averageWaitingTime.setTime(outputTable.getAverageWaitingTime());
-            System.out.println(dt);
-            gantt.setGantt(dt);
+            try{
+                if(storage.getProcesses().isEmpty()) return;
+                (new Processor(comboBox.getSelected())).start(storage.newScheduled(), storage.newGanttData());
+                outputTable.reRandTable();
+                totalExecutionTime.setTime(Storage.totalExecutionTime(storage.getScheduled()));
+                averageWaitingTime.setTime(Storage.averageWaitingTime(storage.getScheduled()));
+                gantt.reRandGantt();
+                barChart.updateDataset(
+                        comboBox.getSelectedName(),
+                        Storage.averageWaitingTime(storage.getScheduled()),
+                        Storage.averageTurnaroundTime(storage.getScheduled()),
+                        Storage.averageResponseTime(storage.getScheduled())
+                );
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         });
+        clear.setCallback(barChart::clear);
     }
 
     /**
@@ -103,6 +115,8 @@ public class SMain extends JFrame {
         // 버튼 그룹
         JPanel buttonGroup = new JPanel(new FlowLayout(FlowLayout.LEFT));
         buttonGroup.add(openFile);
+        buttonGroup.add(clear);
+        buttonGroup.add(comboBox);
         buttonGroup.add(run);
 
         constraints.weightx = 1;
@@ -135,6 +149,10 @@ public class SMain extends JFrame {
         add(gantt, constraints);
 
         constraints.gridy = 7;
+        constraints.weighty = 3;
+        add(barChart, constraints);
+
+        constraints.gridy = 8;
         constraints.weighty = 0;
         add(buttonGroup, constraints);
 
@@ -143,7 +161,6 @@ public class SMain extends JFrame {
     }
 
     public static void main(String[] args) {
-        System.out.println("current path: " + System.getProperty("user.dir"));
         new SMain();
     }
 }
