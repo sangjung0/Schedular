@@ -18,38 +18,32 @@ public class Gantt extends JScrollPane {
     private static final Color CHART_COLOR = Color.RED;
 
     private final JPanel chart;
+    private final ArrayList<GanttData> ganttData;
 
     /**
      * Gantt 객체 생성
      */
-    Gantt(){
+    Gantt(ArrayList<GanttData> ganttData){
         chart = new JPanel();
-        init();
-    }
-
-    /**
-     * 패딩, Viewport, Layout 세팅
-     */
-    private void init(){
+        this.ganttData = ganttData;
         setBorder(new EmptyBorder(FRAME_PADDING,FRAME_PADDING,FRAME_PADDING,FRAME_PADDING));
         setViewportView(chart);
         chart.setLayout(new GridBagLayout());
     }
 
     /**
-     * ArryList<GanttData> 데이터를 받아 간트 차트로 표현
-     * @param data GanttData가 담긴 리스트 데이터
+     * 간트 차트 리랜더링
      */
-    public void setGantt(ArrayList<GanttData> data){
+    public void reRandGantt(){
         chart.removeAll();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
         constraints.fill = GridBagConstraints.BOTH;
         constraints.ipady = 8;
 
-        int length = data.size();
+        int length = ganttData.size();
         for(int i = 0; i < length; i++){
-            GanttData dt = data.get(i);
+            GanttData dt = ganttData.get(i);
             SProcess process = dt.process();
             constraints.gridx = i;
 
