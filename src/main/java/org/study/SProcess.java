@@ -5,35 +5,35 @@ package org.study;
  */
 public class SProcess {
 
-    private final String name;
-    private final int burstTime;
-    private final int priority;
-    private final int arrivalTime;
+    private String name;
+    private int arrivalTime;
+    private int burstTime;
+    private int priority;
     private int responseTime;
     private int executionTime;
     private int waitingTime;
-    private int turnAroundTime;
+    private int turnaroundTime;
 
     public SProcess(String name, int arrivalTime, int burstTime, int priority){
         this.name = name;
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
         this.priority = priority;
+        responseTime = 0;
         executionTime = 0;
         waitingTime = 0;
-        responseTime = 0;
-        turnAroundTime = 0;
+        turnaroundTime = 0;
     }
 
-    public SProcess(String name, int arrivalTime, int burstTime, int priority, int executionTime, int waitingTime, int responseTime, int turnAroundTime){
+    public SProcess(String name, int arrivalTime, int burstTime, int priority, int responseTime, int executionTime, int waitingTime, int turnAroundTime){
         this.name = name;
+        this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
         this.priority = priority;
-        this.arrivalTime = arrivalTime;
+        this.responseTime = responseTime;
         this.executionTime = executionTime;
         this.waitingTime = waitingTime;
-        this.responseTime = responseTime;
-        this.turnAroundTime = turnAroundTime;
+        this.turnaroundTime = turnAroundTime;
     }
 
     public SProcess copy(){
@@ -42,44 +42,56 @@ public class SProcess {
                 arrivalTime,
                 burstTime,
                 priority,
+                responseTime,
                 executionTime,
                 waitingTime,
-                responseTime,
-                turnAroundTime
+                turnaroundTime
         );
     }
 
-    public void setTurnAroundTime(int turnAroundTime) {
-        this.turnAroundTime = turnAroundTime;
-    }
-    public int getTurnAroundTime() {
-        return turnAroundTime;
-    }
-    public void setResponseTime(int time){responseTime = time;}
+    public String getName(){return name;}
+    public int getArrivalTime(){return arrivalTime;}
+    public int getBurstTime(){return burstTime;}
+    public int getPriority(){return priority;}
     public int getResponseTime(){return responseTime;}
-    public int getArrivalTime(){
-        return arrivalTime;
+    public int getExecutionTime() {return executionTime;}
+    public int getWaitingTime(){return waitingTime;}
+    public int getTurnaroundTime() {return turnaroundTime;}
+
+    public void setName(String name) {this.name = name;}
+
+    public void setArrivalTime(int arrivalTime) {
+        if(arrivalTime >= 0) this.arrivalTime = arrivalTime;
+        else throw new InvalidInputException("Arrival time cannot be negative");
     }
-    public int getExecutionTime() {
-        return executionTime;
+
+    public void setBurstTime(int burstTime) {
+        if(burstTime >= 0) this.burstTime = burstTime;
+        else throw new InvalidInputException("Burst time cannot be negative");
     }
-    public void setExecutionTime(int value){
-        executionTime = value;
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
-    public int getWaitingTime(){
-        return waitingTime;
+
+    public void setResponseTime(int responseTime){
+        if(responseTime >= 0) this.responseTime = responseTime;
+        else throw new InvalidInputException("Response time cannot be negative");
     }
-    public void setWaitingTime(int value){
-        waitingTime = value;
+
+    public void setExecutionTime(int executionTime){
+        if(executionTime >= 0) this.executionTime = executionTime;
+        else throw new InvalidInputException("Execution time cannot be negative");
     }
-    public int getBurstTime(){
-        return burstTime;
+
+    public void setWaitingTime(int waitingTime){
+        if(waitingTime >= 0) this.waitingTime = waitingTime;
+        else throw new InvalidInputException("Waiting time cannot be negative");
     }
-    public String getName(){
-        return name;
-    }
-    public int getPriority(){
-        return priority;
+
+    public void setTurnaroundTime(int turnAroundTime) {
+        if(turnAroundTime >= 0) this.turnaroundTime = turnAroundTime;
+        else throw new InvalidInputException("Turnaround time cannot be negative");
     }
 
 }
