@@ -39,32 +39,28 @@ public class Gantt extends JScrollPane {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
         constraints.fill = GridBagConstraints.BOTH;
-        constraints.ipady = 8;
 
         int length = ganttData.size();
+        int executionTime = 0;
         for(int i = 0; i < length; i++){
             GanttData dt = ganttData.get(i);
             SProcess process = dt.process();
             constraints.gridx = i;
 
             constraints.gridy = 0;
-            chart.add(new JLabel(process.getName()), constraints);
-
-            constraints.gridy = 1;
             constraints.ipady = 10;
-            chart.add(new Chart("  ".repeat(dt.time()),
+            String str = "&nbsp;".repeat(dt.time());
+            str = "<html>"+ str + process.getName() + str + "<br>" + str + dt.time();
+            chart.add(new Chart(str,
                     0 == length -1 ? Chart.SOLO :
                         i == 0 ? Chart.FIRST :
                                 i == length-1 ? Chart.LAST :
                                         Chart.MIDDLE
                     ), constraints);
 
-            constraints.ipady = 5;
-            constraints.gridy = 2;
-            chart.add(new JLabel(String.valueOf(dt.time())), constraints);
-
-            constraints.gridy = 3;
-            chart.add(new JLabel(String.valueOf(process.getWaitingTime())), constraints);
+            constraints.gridy = 1;
+            chart.add(new JLabel(String.valueOf(executionTime)), constraints);
+            executionTime += dt.time();
         }
         chart.revalidate();
         chart.repaint();
