@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 /**
  * STable을 확장하는 SInputTable
+ * 입력된 프로세스를 표의 형태로 출력
  */
 public class SInputTable extends STable{
 
@@ -30,6 +31,9 @@ public class SInputTable extends STable{
         data = storage;
     }
 
+    /**
+     * 테이블 다시 랜더링
+     */
     public void reRandTable(){
         Object[][] data = new Object[this.data.size()][COLUMNS_SUMMARY.length];
 
@@ -45,6 +49,9 @@ public class SInputTable extends STable{
         setTableColumnMinWidth();
     }
 
+    /**
+     * 테이블에서 데이터 추가할 수 있게 하는 이벤트 추가
+     */
     private void setUpPopupMenu() {
         JPopupMenu tablePopupMenu = new JPopupMenu();
         JPopupMenu headerPopupMenu = new JPopupMenu();

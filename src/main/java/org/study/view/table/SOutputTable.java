@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 /**
  * STable 을 확장하는 SOutputTable
+ * 스케줄링 완료된 데이터를 표시하기 위한 테이블
  */
 public class SOutputTable extends STable{
 

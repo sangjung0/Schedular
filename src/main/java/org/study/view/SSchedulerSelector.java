@@ -12,6 +12,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+/**
+ * 스케줄러 선택하는 콤보 박스
+ */
 public class  SSchedulerSelector extends JComboBox<String> {
     private static final  Class<? extends Scheduler>[] SCHEDULE_ALGORITHM = Constants.SCHEDULE_ALGORITHM;
     private static final String[] SCHEDULE_ALGORITHM_TOOLTIP = Constants.SCHEDULE_ALGORITHM_TOOLTIP;
@@ -27,7 +30,7 @@ public class  SSchedulerSelector extends JComboBox<String> {
             map.put(c.getSimpleName(), c);
             addItem(c.getSimpleName());
         }
-        setRenderer(new ToolTipComboBoxRenderer(SCHEDULE_ALGORITHM_TOOLTIP));
+        setRenderer(new ToolTipComboBoxRenderer());
 
         addActionListener(new ActionListener() {
             @Override
@@ -50,6 +53,9 @@ public class  SSchedulerSelector extends JComboBox<String> {
     }
     public Iterator<Class<? extends Scheduler>> iterator(){return new SchedulerIterator();}
 
+    /**
+     * 스케줄러 클래스 Iterator
+     */
     private static class SchedulerIterator implements Iterator<Class<? extends Scheduler>>{
 
         int index = 0;
@@ -66,18 +72,16 @@ public class  SSchedulerSelector extends JComboBox<String> {
         }
     }
 
+    /**
+     * 스케줄러 선택 항목 tooltip 추가 클래스
+     */
     private static class ToolTipComboBoxRenderer extends DefaultListCellRenderer {
-        private final String[] tooltips;
-
-        public ToolTipComboBoxRenderer(String[] tooltips) {
-            this.tooltips = tooltips;
-        }
 
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             if (index > -1 && c instanceof JComponent) {
-                ((JComponent) c).setToolTipText(tooltips[index]);
+                ((JComponent) c).setToolTipText(SCHEDULE_ALGORITHM_TOOLTIP[index]);
             }
             return c;
         }

@@ -1,9 +1,8 @@
 package org.study.view.label;
 
-import javax.swing.*;
-
 /**
- * JLabel을 확장한 SLabel
+ * SLabelStyle 확장한 SLabel
+ * 데이터를 표시하는데 사용
  */
 public abstract class SLabel extends SLabelStyle {
 
