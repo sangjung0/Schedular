@@ -18,6 +18,11 @@ public abstract class STable extends JTable {
         super(new DefaultTableModel(columns, 0));
         setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         setTableColumnMinWidth();
+
+        // style
+        setFont(getFont().deriveFont(15.0F));
+        setRowHeight(22);
+        getTableHeader().setFont(getTableHeader().getFont().deriveFont(15.0F));
     }
 
     /**
