@@ -22,6 +22,7 @@ public class Processor {
     protected int cpuActivatedTime;
     private SProcess ganttProcess;
     private int processRunTime;
+    private int contextSwitchingCount;
 
     /**
      * Processor 생성. 전달 받은 스케줄러를 기반으로 동작
@@ -35,26 +36,27 @@ public class Processor {
         cpuActivatedTime = 0;
         ganttProcess = currentProcess;
         processRunTime = 0;
+        contextSwitchingCount = -1;
     }
 
     /**
-     * processes 데이터 기반으로 스케줄러 구동. 결과 값은 processes 객체와 ganttData에 저장
+     * processes 데이터 기반으로 스케줄러 구동. 결과 값은 processes 객체와 ganttData에 저장. 문맥 교환 횟수는 반환
      * @param processes 스케줄링 할 프로세스들
      * @param ganttData 결과 값을 받을 객체
+     * @return 문맥 교환 횟수 출력
      */
-    public void start(ArrayList<SProcess> processes, ArrayList<GanttData> ganttData) {
+    public int start(ArrayList<SProcess> processes, ArrayList<GanttData> ganttData) {
         GanttData g;
         int runTime;
 
         jobQ.addAll(processes);
-        while(!jobQ.isEmpty() || !scheduler.readyQIsEmpty() || currentProcess != emptyProcess){
+        while(!jobQ.isEmpty() || !scheduler.readyQIsEmpty() || !currentProcess.equals(emptyProcess)){
             runTime = schedule();
             if((g = getGanttData(runTime)) != null) ganttData.add(g);
             cpuCycle(runTime);
         }
-        runTime = schedule();
-        if((g = getGanttData(runTime)) != null) ganttData.add(g);
 
+        return contextSwitchingCount;
     }
 
     /**
@@ -64,6 +66,7 @@ public class Processor {
      *  - 프로세스 선택
      *  - 프로세스 실행 시간 측정
      *  - waiting time 조정
+     *  - 문맥 교환 횟수 측정
      * @return 프로세스 실행 시간
      */
     private int schedule() {
@@ -82,8 +85,13 @@ public class Processor {
         } else scheduler.addReadyQ(currentProcess);
 
         // 프로세스 선택
-        if(scheduler.readyQIsEmpty()) currentProcess = emptyProcess;
-        else currentProcess = scheduler.pollReadyQ();
+        if(scheduler.readyQIsEmpty()) currentProcess = emptyProcess.copy();
+        else {
+            p = scheduler.pollReadyQ();
+            // 문맥 교환 횟수 증가
+            if(!currentProcess.equals(emptyProcess) && currentProcess != p) contextSwitchingCount++;
+            currentProcess = p;
+        }
 
         runTime = scheduler.getRunTime(currentProcess);
 
@@ -103,7 +111,7 @@ public class Processor {
      * @return 간트차트 데이터
      */
     private GanttData getGanttData(int runTime){
-        if (ganttProcess == currentProcess){
+        if (ganttProcess.equals(currentProcess)){
             processRunTime += runTime;
             return null;
         }else if(processRunTime == 0){
