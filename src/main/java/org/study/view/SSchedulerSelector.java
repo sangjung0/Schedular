@@ -7,7 +7,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class  SSchedulerSelector extends JComboBox<String> {
     @SuppressWarnings("unchecked") //수정 할 것
@@ -48,13 +50,34 @@ public class  SSchedulerSelector extends JComboBox<String> {
                 selected = map.get((String) comboBox.getSelectedItem());
             }
         });
+
+        // style
+        setFont(getFont().deriveFont(15.0F));
     }
 
+    public String getSchedulerName(Class<? extends Scheduler> s) {return s.getSimpleName();}
     public String getSelectedName(){
-        return selected.getSimpleName();
+        return getSchedulerName(selected);
     }
     public Class<? extends Scheduler> getSelected() {
         return selected;
+    }
+    public Iterator<Class<? extends Scheduler>> iterator(){return new SchedulerIterator();}
+
+    private static class SchedulerIterator implements Iterator<Class<? extends Scheduler>>{
+
+        int index = 0;
+
+        @Override
+        public boolean hasNext() {
+            return SCHEDULE_ALGORITHM.length > index;
+        }
+
+        @Override
+        public Class<? extends Scheduler> next() {
+            if(!hasNext()) throw new NoSuchElementException();
+            return SCHEDULE_ALGORITHM[index++];
+        }
     }
 
     private static class ToolTipComboBoxRenderer extends DefaultListCellRenderer {
