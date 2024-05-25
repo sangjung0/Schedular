@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 /**
- * SButton을 확장하는 OpenFile 버튼
+ * SButton 확장하는 OpenFile 버튼
  */
 public class SOpenFile extends SButton{
 
@@ -25,7 +25,7 @@ public class SOpenFile extends SButton{
      * @param callback 이벤트 callback
      */
     public SOpenFile(JFrame frame, Callback callback){
-        super(NAME);
+        super(NAME, ()->{});
         setCallback(frame, callback);
     }
 
