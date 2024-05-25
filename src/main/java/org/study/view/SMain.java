@@ -2,17 +2,19 @@ package org.study.view;
 
 import org.study.scheduler.*;
 import org.study.view.barChart.BarChart;
+import org.study.view.button.SAllRun;
 import org.study.view.button.SClear;
 import org.study.view.button.SOpenFile;
 import org.study.view.button.SRun;
-import org.study.view.label.SAverageWaitingTime;
-import org.study.view.label.STotalExecutionTime;
+import org.study.view.label.*;
 import org.study.view.table.SInputTable;
 import org.study.view.table.SOutputTable;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.util.Iterator;
 
 /**
  * GUI 메인 클래스
@@ -31,8 +33,10 @@ public class SMain extends JFrame {
     private final SSchedulerSelector comboBox;
     private final SRun run;
     private final SClear clear;
+    private final SAllRun allRun;
     private final STotalExecutionTime totalExecutionTime;
     private final SAverageWaitingTime averageWaitingTime;
+    private final SContextSwitchCount contextSwitchCount;
     private final Gantt gantt;
     private final BarChart barChart;
 
@@ -47,10 +51,12 @@ public class SMain extends JFrame {
         run = new SRun();
         totalExecutionTime = new STotalExecutionTime();
         averageWaitingTime = new SAverageWaitingTime();
+        contextSwitchCount = new SContextSwitchCount();
         gantt = new Gantt(storage.getGanttData());
         barChart = new BarChart();
         comboBox = new SSchedulerSelector();
         clear = new SClear();
+        allRun = new SAllRun();
 
         init();
         setEvent();
@@ -61,29 +67,49 @@ public class SMain extends JFrame {
      */
     private void setEvent(){
         openFile.setCallback(this, file -> {
-            storage.read(file); //에러 처리 필요
-            inputTable.reRandTable();
-        });
-        run.setCallback(()->{
             try{
-                if(storage.getProcesses().isEmpty()) return;
-                (new Processor(comboBox.getSelected())).start(storage.newScheduled(), storage.newGanttData());
+                storage.read(file);
+                inputTable.reRandTable();
+                barChart.clear();
                 outputTable.reRandTable();
-                totalExecutionTime.setTime(Storage.totalExecutionTime(storage.getScheduled()));
-                averageWaitingTime.setTime(Storage.averageWaitingTime(storage.getScheduled()));
                 gantt.reRandGantt();
-                barChart.updateDataset(
-                        comboBox.getSelectedName(),
-                        Storage.averageWaitingTime(storage.getScheduled()),
-                        Storage.averageTurnaroundTime(storage.getScheduled()),
-                        Storage.averageResponseTime(storage.getScheduled())
-                );
+            }catch (FileNotFoundException e){
+                JOptionPane.showMessageDialog(this, "File does Not exist.", "Error", JOptionPane.ERROR_MESSAGE);
             }catch (Exception e){
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "File content format is Incorrect.", "Error", JOptionPane.ERROR_MESSAGE);
             }
+        });
+        run.setCallback(()->run(comboBox.getSelected()));
+        allRun.setCallback(()->{
+            Iterator<Class<? extends Scheduler>> iter = comboBox.iterator();
+            while(iter.hasNext())
+                run(iter.next());
         });
         clear.setCallback(barChart::clear);
     }
+
+    /**
+     * 스케줄링 실행 함수
+     * @param scheduler 스케줄러 클래스
+     */
+     private void run(Class<? extends Scheduler> scheduler){
+         try{
+             if(storage.getProcesses().isEmpty()) return;
+             contextSwitchCount.setTime((new Processor(scheduler)).start(storage.newScheduled(), storage.newGanttData()));
+             outputTable.reRandTable();
+             totalExecutionTime.setTime(Storage.totalExecutionTime(storage.getScheduled()));
+             averageWaitingTime.setTime(Storage.averageWaitingTime(storage.getScheduled()));
+             gantt.reRandGantt();
+             barChart.updateDataset(
+                     comboBox.getSchedulerName(scheduler),
+                     Storage.averageWaitingTime(storage.getScheduled()),
+                     Storage.averageTurnaroundTime(storage.getScheduled()),
+                     Storage.averageResponseTime(storage.getScheduled())
+             );
+         }catch (Exception e){
+             JOptionPane.showMessageDialog(this, "Run Error", "Error", JOptionPane.ERROR_MESSAGE);
+         }
+     }
 
     /**
      * 창의 기본 구성요소 세팅
@@ -105,11 +131,17 @@ public class SMain extends JFrame {
         GridBagConstraints constraints = new GridBagConstraints();
 
         // 입력
-        JLabel input = new JLabel("input");
+        JLabel input = new SInput();
         JScrollPane inputPane = new JScrollPane(inputTable);
 
+        // 라벨 출력 그룹
+        JPanel outputGroup = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 0));
+        outputGroup.add(totalExecutionTime);
+        outputGroup.add(averageWaitingTime);
+        outputGroup.add(contextSwitchCount);
+
         // 출력
-        JLabel output = new JLabel("output");
+        JLabel output = new SOutput();
         JScrollPane outputPane = new JScrollPane(outputTable);
 
         // 버튼 그룹
@@ -118,6 +150,7 @@ public class SMain extends JFrame {
         buttonGroup.add(clear);
         buttonGroup.add(comboBox);
         buttonGroup.add(run);
+        buttonGroup.add(allRun);
 
         constraints.weightx = 1;
         constraints.fill = GridBagConstraints.BOTH;
@@ -139,20 +172,17 @@ public class SMain extends JFrame {
 
         constraints.gridy = 4;
         constraints.weighty = 0;
-        add(totalExecutionTime, constraints);
+        add(outputGroup, constraints);
 
         constraints.gridy = 5;
-        add(averageWaitingTime, constraints);
-
-        constraints.gridy = 6;
         constraints.weighty = 1;
         add(gantt, constraints);
 
-        constraints.gridy = 7;
+        constraints.gridy = 6;
         constraints.weighty = 3;
         add(barChart, constraints);
 
-        constraints.gridy = 8;
+        constraints.gridy = 7;
         constraints.weighty = 0;
         add(buttonGroup, constraints);
 
