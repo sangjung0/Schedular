@@ -44,24 +44,19 @@ public class Storage{
      * 파일의 각 행은 아래와 같아야 함.
      * "{name} {arrivalTime} {executionTime} {priority}\n"
      * @param file 읽을 파일
-     * @return 오류 없으면 false
      */
-    public boolean read(File file) {
-        clearProcesses();
-        try{
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
-            String line;
-            while((line = reader.readLine()) != null){
-                String[] data = line.split(" ");
-                processes.add(new SProcess(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3])));
-            }
-            return false;
-        }catch (FileNotFoundException e){
-            e.printStackTrace();
-        }catch (IOException e) {
-            e.printStackTrace();
+    public void read(File file) throws IOException{
+        ArrayList<SProcess> temp = new ArrayList<SProcess>();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
+        String line;
+        while((line = reader.readLine()) != null){
+            String[] data = line.split(" ");
+            temp.add(new SProcess(data[0], Integer.parseInt(data[1]), Integer.parseInt(data[2]), Integer.parseInt(data[3])));
         }
-        return true;
+        clearProcesses();
+        clearGanttData();
+        clearScheduled();
+        processes.addAll(temp);
     }
 
     public static int averageResponseTime(ArrayList<SProcess> data){
