@@ -1,4 +1,4 @@
-package org.study;
+package org.study.exception;
 
 public class InvalidInputException extends RuntimeException{
     public InvalidInputException(String message){
