@@ -6,6 +6,16 @@ import java.awt.*;
 
 public class Constants {
 
+    // ----- Main -----
+    public static final int WINDOW_X = 500;
+    public static final int WINDOW_Y = 500;
+    public static final int WINDOW_WIDTH = 800;
+    public static final int WINDOW_HEIGHT = 900;
+    public static final int FRAME_PADDING = 20;
+    public static final String TITLE = "Scheduler";
+
+    public static final int THREE_LABEL_H_GAP = 30;
+
     // ----- Scheduler --------
     public static final int SCHEDULER_MULTILEVEL_FEEDBACK_QUEUE_Q1_TIME_QUANTUM = 8;
     public static final int SCHEDULER_MULTILEVEL_FEEDBACK_QUEUE_Q2_TIME_QUANTUM = 16;
@@ -101,12 +111,17 @@ public class Constants {
 
     // ----- Error Message -----
 
+    public static final String ERROR_MESSAGE_BOX_TITLE = "Error";
+
     public static final String ARRIVAL_TIME_CANNOT_BE_NEGATIVE = "Arrival time cannot be negative";
     public static final String BURST_TIME_CANNOT_BE_NEGATIVE = "Burst time cannot be negative";
     public static final String RESPONSE_TIME_CANNOT_BE_NEGATIVE = "Response time cannot be negative";
     public static final String EXECUTION_TIME_CANNOT_BE_NEGATIVE = "Execution time cannot be negative";
     public static final String WAITING_TIME_CANNOT_BE_NEGATIVE = "Waiting time cannot be negative";
     public static final String TURNAROUND_TIME_CANNOT_BE_NEGATIVE = "Turnaround time cannot be negative";
+    public static final String FILE_DOES_NOT_EXIST = "File does Not exist.";
+    public static final String FILE_CONTENT_FORMAT_IS_INCORRECT = "File content format is Incorrect.";
+    public static final String RUN_ERROR = "Run Error.";
 
 
 }

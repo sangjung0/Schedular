@@ -1,5 +1,6 @@
 package org.study.view;
 
+import org.study.Constants;
 import org.study.scheduler.*;
 import org.study.view.barChart.BarChart;
 import org.study.view.button.SAllRun;
@@ -21,11 +22,14 @@ import java.util.Iterator;
  */
 public class SMain extends JFrame {
 
-    private static final int X = 1000;
-    private static final int Y = 1000;
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 900;
-    private static final int FRAME_PADDING = 20;
+    private static final int X = Constants.WINDOW_X;
+    private static final int Y = Constants.WINDOW_Y;
+    private static final int WIDTH = Constants.WINDOW_WIDTH;
+    private static final int HEIGHT = Constants.WINDOW_HEIGHT;
+    private static final int FRAME_PADDING = Constants.FRAME_PADDING;
+    private static final String TITLE = Constants.TITLE;
+
+    private static final int THREE_LABEL_H_GAP = Constants.THREE_LABEL_H_GAP;
 
     private final SInputTable inputTable;
     private final SOutputTable outputTable;
@@ -74,9 +78,9 @@ public class SMain extends JFrame {
                 outputTable.reRandTable();
                 gantt.reRandGantt();
             }catch (FileNotFoundException e){
-                JOptionPane.showMessageDialog(this, "File does Not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, Constants.FILE_DOES_NOT_EXIST, Constants.ERROR_MESSAGE_BOX_TITLE, JOptionPane.ERROR_MESSAGE);
             }catch (Exception e){
-                JOptionPane.showMessageDialog(this, "File content format is Incorrect.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, Constants.FILE_CONTENT_FORMAT_IS_INCORRECT, Constants.ERROR_MESSAGE_BOX_TITLE, JOptionPane.ERROR_MESSAGE);
             }
         });
         run.setCallback(()->run(comboBox.getSelected()));
@@ -107,7 +111,7 @@ public class SMain extends JFrame {
                      Storage.averageResponseTime(storage.getScheduled())
              );
          }catch (Exception e){
-             JOptionPane.showMessageDialog(this, "Run Error", "Error", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(this, Constants.RUN_ERROR, Constants.ERROR_MESSAGE_BOX_TITLE, JOptionPane.ERROR_MESSAGE);
          }
      }
 
@@ -115,7 +119,7 @@ public class SMain extends JFrame {
      * 창의 기본 구성요소 세팅
      */
     private void init(){
-        setTitle("Scheduler");
+        setTitle(TITLE);
 
         // 초기 창 위치 및 크기
         setLocation(X,Y);
@@ -135,7 +139,7 @@ public class SMain extends JFrame {
         JScrollPane inputPane = new JScrollPane(inputTable);
 
         // 라벨 출력 그룹
-        JPanel outputGroup = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 0));
+        JPanel outputGroup = new JPanel(new FlowLayout(FlowLayout.CENTER, THREE_LABEL_H_GAP, 5));
         outputGroup.add(totalExecutionTime);
         outputGroup.add(averageWaitingTime);
         outputGroup.add(contextSwitchCount);
