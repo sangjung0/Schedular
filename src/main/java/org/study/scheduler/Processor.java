@@ -32,11 +32,12 @@ public class Processor {
         this.scheduler = scheduler.getDeclaredConstructor().newInstance();
         emptyProcess = new SProcess(WAIT, 0, 1, 0, 0, 0, 0, 0);
         jobQ = new PriorityQueue<SProcess>(new ArrivalTimeComparator());
-        currentProcess = new SProcess(WAIT, 0, 0, 0, 0, 0, 0, 0);
+        currentProcess = emptyProcess.copy();
+        currentProcess.setExecutionTime(1);
         cpuActivatedTime = 0;
         ganttProcess = currentProcess;
         processRunTime = 0;
-        contextSwitchingCount = -1;
+        contextSwitchingCount = 0;
     }
 
     /**
