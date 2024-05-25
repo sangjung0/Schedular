@@ -1,5 +1,7 @@
 package org.study.view.table;
 
+import org.study.Constants;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -9,6 +11,8 @@ import javax.swing.table.DefaultTableModel;
 public abstract class STable extends JTable {
 
     private static final int TABLE_COLUMN_MIN_WIDTH = 140;
+    private static final float FONT_SIZE = Constants.TABLE_FONT_SIZE;
+    private static final int TABLE_HEIGHT = Constants.TABLE_HEIGHT;
 
     /**
      * 컬럼 제목을 받아 테이블 생성
@@ -20,9 +24,9 @@ public abstract class STable extends JTable {
         setTableColumnMinWidth();
 
         // style
-        setFont(getFont().deriveFont(15.0F));
-        setRowHeight(22);
-        getTableHeader().setFont(getTableHeader().getFont().deriveFont(15.0F));
+        setFont(getFont().deriveFont(FONT_SIZE));
+        setRowHeight(TABLE_HEIGHT);
+        getTableHeader().setFont(getTableHeader().getFont().deriveFont(FONT_SIZE));
     }
 
     /**

@@ -12,17 +12,18 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.ui.TextAnchor;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.study.Constants;
 
 import java.awt.*;
 
 public class BarChart extends ChartPanel {
 
-    private final static String CHART_NAME="Average Bar Chart";
-    private final static String X_AXIS = "Schedule order";
-    private final static String Y_AXIS = "Time";
-    private final static String WAITING_TIME = "Waiting Time";
-    private final static String TURNAROUND_TIME = "Turnaround Time";
-    private final static String RESPONSE_TIME = "Response Time";
+    private final static String CHART_NAME= Constants.BAR_CHART_NAME;
+    private final static String X_AXIS = Constants.BAR_CHART_X_AXIS;
+    private final static String Y_AXIS = Constants.BAR_CHART_Y_AXIS;
+    private final static String WAITING_TIME = Constants.BAR_CHART_WAITING_TIME;
+    private final static String TURNAROUND_TIME =Constants.BAR_CHART_TURNAROUND_TIME;
+    private final static String RESPONSE_TIME = Constants.BAR_CHART_RESPONSE_TIME;
 
 
     private final DefaultCategoryDataset dataset;

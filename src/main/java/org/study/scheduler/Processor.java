@@ -1,5 +1,6 @@
 package org.study.scheduler;
 
+import org.study.Constants;
 import org.study.GanttData;
 import org.study.SProcess;
 
@@ -13,7 +14,7 @@ import java.util.PriorityQueue;
  * 객체 재사용을 권장하지 않음
  */
 public class Processor {
-    private static final String WAIT = "WAIT";
+    private static final String WAIT = Constants.PROCESS_WAIT;
 
     protected final SProcess emptyProcess;
     protected final PriorityQueue<SProcess> jobQ;

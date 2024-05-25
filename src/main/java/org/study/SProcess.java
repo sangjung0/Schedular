@@ -72,12 +72,12 @@ public class SProcess {
 
     public void setArrivalTime(int arrivalTime) {
         if(arrivalTime >= 0) this.arrivalTime = arrivalTime;
-        else throw new InvalidInputException("Arrival time cannot be negative");
+        else throw new InvalidInputException(Constants.ARRIVAL_TIME_CANNOT_BE_NEGATIVE);
     }
 
     public void setBurstTime(int burstTime) {
         if(burstTime >= 0) this.burstTime = burstTime;
-        else throw new InvalidInputException("Burst time cannot be negative");
+        else throw new InvalidInputException(Constants.BURST_TIME_CANNOT_BE_NEGATIVE);
     }
 
     public void setPriority(int priority) {
@@ -86,22 +86,22 @@ public class SProcess {
 
     public void setResponseTime(int responseTime){
         if(responseTime >= 0) this.responseTime = responseTime;
-        else throw new InvalidInputException("Response time cannot be negative");
+        else throw new InvalidInputException(Constants.RESPONSE_TIME_CANNOT_BE_NEGATIVE);
     }
 
     public void setExecutionTime(int executionTime){
         if(executionTime >= 0) this.executionTime = executionTime;
-        else throw new InvalidInputException("Execution time cannot be negative");
+        else throw new InvalidInputException(Constants.EXECUTION_TIME_CANNOT_BE_NEGATIVE);
     }
 
     public void setWaitingTime(int waitingTime){
         if(waitingTime >= 0) this.waitingTime = waitingTime;
-        else throw new InvalidInputException("Waiting time cannot be negative");
+        else throw new InvalidInputException(Constants.WAITING_TIME_CANNOT_BE_NEGATIVE);
     }
 
     public void setTurnaroundTime(int turnAroundTime) {
         if(turnAroundTime >= 0) this.turnaroundTime = turnAroundTime;
-        else throw new InvalidInputException("Turnaround time cannot be negative");
+        else throw new InvalidInputException(Constants.TURNAROUND_TIME_CANNOT_BE_NEGATIVE);
     }
 
 }

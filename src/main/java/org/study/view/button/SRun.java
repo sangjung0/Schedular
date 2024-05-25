@@ -1,11 +1,13 @@
 package org.study.view.button;
 
+import org.study.Constants;
+
 /**
  * SButton을 확장하는 SRun 버튼
  */
 public class SRun extends SButton{
 
-    private static final String NAME = "Run";
+    private static final String NAME = Constants.BUTTON_RUN;
 
     public SRun(){
         this(()->{});

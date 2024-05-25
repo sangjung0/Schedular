@@ -1,5 +1,7 @@
 package org.study.view.button;
 
+import org.study.Constants;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
@@ -11,7 +13,7 @@ import java.io.File;
  */
 public class SOpenFile extends SButton{
 
-    private static final String NAME = "OpenFile";
+    private static final String NAME = Constants.BUTTON_OPEN_FILE;
 
     private ActionListener method;
 

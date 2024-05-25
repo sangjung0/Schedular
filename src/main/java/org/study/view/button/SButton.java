@@ -1,5 +1,7 @@
 package org.study.view.button;
 
+import org.study.Constants;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +22,7 @@ public abstract class SButton extends JButton {
         setCallback(callback);
 
         // style
-        setFont(getFont().deriveFont(15.0F));
+        setFont(getFont().deriveFont(Constants.BUTTON_FONT_SIZE));
     }
 
     /**

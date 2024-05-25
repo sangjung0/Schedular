@@ -1,5 +1,6 @@
 package org.study.view.table;
 
+import org.study.Constants;
 import org.study.SProcess;
 
 import javax.swing.*;
@@ -15,9 +16,9 @@ import java.util.ArrayList;
  */
 public class SInputTable extends STable{
 
-    private static final String[] COLUMNS_SUMMARY = {"Process", "ArrivalTime", "ExecutionTime", "Priority"};
-    private static final String REMOVE = "Remove";
-    private static final String ADD = "Add";
+    private static final String[] COLUMNS_SUMMARY = Constants.INPUT_TABLE_COLUMNS_SUMMARY;
+    private static final String REMOVE = Constants.TABLE_REMOVE;
+    private static final String ADD = Constants.TABLE_ADD;
     private final ArrayList<SProcess> data;
 
     /**
@@ -92,7 +93,6 @@ public class SInputTable extends STable{
             }
         });
 
-        // 테이블에 마우스 리스너 추가
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {

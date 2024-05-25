@@ -1,5 +1,6 @@
 package org.study.view;
 
+import org.study.Constants;
 import org.study.GanttData;
 import org.study.SProcess;
 
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 public class Gantt extends JScrollPane {
 
     private static final int FRAME_PADDING = 5;
-    private static final Color CHART_COLOR = Color.RED;
+    private static final Color CHART_COLOR = Constants.GANTT_CHART_COLOR;
 
     private final JPanel chart;
     private final ArrayList<GanttData> ganttData;

@@ -1,10 +1,12 @@
 package org.study.view.button;
 
+import org.study.Constants;
+
 /**
  * SButton을 확장하는 SAllRun
  */
 public class SAllRun extends SButton{
-    private static final String NAME = "All Run";
+    private static final String NAME = Constants.BUTTON_ALL_RUN;
 
     public SAllRun() { this(()->{});}
 

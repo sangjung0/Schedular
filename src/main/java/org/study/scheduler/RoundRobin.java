@@ -1,5 +1,6 @@
 package org.study.scheduler;
 
+import org.study.Constants;
 import org.study.SProcess;
 
 import java.util.Iterator;
@@ -11,7 +12,7 @@ import java.util.Queue;
  */
 public class RoundRobin implements Scheduler {
 
-    private static final int TIME_QUANTUM = 2;
+    private static final int TIME_QUANTUM = Constants.SCHEDULER_ROUND_ROBIN_TIME_QUANTUM;
 
     private final Queue<SProcess> readyQ;
     private final int timeQuantum;

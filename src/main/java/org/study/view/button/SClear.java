@@ -1,11 +1,13 @@
 package org.study.view.button;
 
+import org.study.Constants;
+
 /**
  * SButton을 확장하는 SRun 버튼
  */
 public class SClear extends SButton{
 
-    private static final String NAME = "ChartClear";
+    private static final String NAME = Constants.BUTTON_CHART_CLEAR;
 
     public SClear(){
         this(()->{});

@@ -1,5 +1,6 @@
 package org.study.scheduler;
 
+import org.study.Constants;
 import org.study.SProcess;
 
 import java.util.Iterator;
@@ -10,7 +11,7 @@ import java.util.LinkedList;
  */
 public class SRTF implements Scheduler {
 
-    private static final int TIME_QUANTUM = 1;
+    private static final int TIME_QUANTUM = Constants.SCHEDULER_SRTF_TIME_QUANTUM;
     private final LinkedList<SProcess> readyQ;
 
     public SRTF(){

@@ -1,5 +1,6 @@
 package org.study.view;
 
+import org.study.Constants;
 import org.study.scheduler.*;
 
 import javax.swing.*;
@@ -12,25 +13,10 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class  SSchedulerSelector extends JComboBox<String> {
-    @SuppressWarnings("unchecked") //수정 할 것
-    private static final  Class<? extends Scheduler>[] SCHEDULE_ALGORITHM = new Class[]{
-            FCFS.class,
-            HRRN.class,
-            MultilevelFeedbackQueue.class,
-            MultilevelQueue.class,
-            RoundRobin.class,
-            SJF.class,
-            SRTF.class
-    };
-    private static final String[] SCHEDULE_ALGORITHM_TOOLTIP = {
-        "\n선입선출\n",
-        "\n에이징\n",
-        "\n멀티레벨피드백큐\n",
-        "\n멀티레벨큐\n",
-        "\n라운드로빈\n",
-        "\n짧은 잡 먼저\n",
-        "\n남은 짧은 시간 먼저\n"
-    };
+    private static final  Class<? extends Scheduler>[] SCHEDULE_ALGORITHM = Constants.SCHEDULE_ALGORITHM;
+    private static final String[] SCHEDULE_ALGORITHM_TOOLTIP = Constants.SCHEDULE_ALGORITHM_TOOLTIP;
+    private static final float FONT_SIZE = Constants.BUTTON_FONT_SIZE;
+
     private final Map<String, Class<? extends Scheduler>> map;
     private Class<? extends Scheduler> selected;
 
@@ -52,7 +38,7 @@ public class  SSchedulerSelector extends JComboBox<String> {
         });
 
         // style
-        setFont(getFont().deriveFont(15.0F));
+        setFont(getFont().deriveFont(FONT_SIZE));
     }
 
     public String getSchedulerName(Class<? extends Scheduler> s) {return s.getSimpleName();}

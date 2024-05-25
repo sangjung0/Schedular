@@ -1,5 +1,6 @@
 package org.study.view.table;
 
+import org.study.Constants;
 import org.study.SProcess;
 
 import javax.swing.table.DefaultTableModel;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
  */
 public class SOutputTable extends STable{
 
-    private static final String[] COLUMNS_SUMMARY = {"Process", "Execution Time", "Waiting Time", "Turnaround Time", "Response Time"};
+    private static final String[] COLUMNS_SUMMARY = Constants.OUTPUT_TABLE_COLUMNS_SUMMARY;
 
     private final ArrayList<SProcess> processes;
 
