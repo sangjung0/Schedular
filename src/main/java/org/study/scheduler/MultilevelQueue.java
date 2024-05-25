@@ -1,5 +1,6 @@
 package org.study.scheduler;
 
+import org.study.Constants;
 import org.study.SProcess;
 
 import java.util.ArrayList;
@@ -9,9 +10,9 @@ import java.util.Iterator;
  * MultilevelQueue 스케줄러 구현
  */
 public class MultilevelQueue implements Scheduler{
-    private static final int CRITERION = 15;
-    private static final int RR_TIME_RATIO = 8;
-    private static final int FCFS_TIME_RATIO = 2;
+    private static final int CRITERION = Constants.SCHEDULER_MULTILEVEL_QUEUE_CRITERION;
+    private static final int RR_TIME_RATIO = Constants.SCHEDULER_MULTILEVEL_QUEUE_RR_TIME_RATIO;
+    private static final int FCFS_TIME_RATIO = Constants.SCHEDULER_MULTILEVEL_QUEUE_FCFS_TIME_RATIO;
 
     // Foreground = roundRobin, Background = fcfs
     private final FCFS fcfs;
@@ -62,6 +63,7 @@ public class MultilevelQueue implements Scheduler{
         if(cntExecutionTime > executionTime) executionTime = cntExecutionTime * RR_TIME_RATIO/FCFS_TIME_RATIO;
         else executionTime = RR_TIME_RATIO;
         cntExecutionTime = 0;
+        if (roundRobin.readyQIsEmpty()) return pollReadyQ();
         return roundRobin.pollReadyQ();
     }
 
