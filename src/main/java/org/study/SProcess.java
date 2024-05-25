@@ -1,5 +1,7 @@
 package org.study;
 
+import org.study.exception.InvalidInputException;
+
 /**
  * 프로세스 데이터 클래스
  */
@@ -47,6 +49,14 @@ public class SProcess {
                 waitingTime,
                 turnaroundTime
         );
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this==obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        SProcess process = (SProcess) obj;
+        return name.equals(process.name) && arrivalTime == process.arrivalTime && burstTime == process.burstTime && priority == process.priority;
     }
 
     public String getName(){return name;}
