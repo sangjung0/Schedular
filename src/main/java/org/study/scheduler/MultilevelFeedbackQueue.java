@@ -1,5 +1,6 @@
 package org.study.scheduler;
 
+import org.study.Constants;
 import org.study.SProcess;
 
 import java.util.ArrayList;
@@ -9,11 +10,11 @@ import java.util.Iterator;
  * MultilevelFeedbackQueue 스케줄러 구현
  */
 public class MultilevelFeedbackQueue implements Scheduler {
-    private static final int Q1_TIME_QUANTUM = 8;
-    private static final int Q2_TIME_QUANTUM = 16;
-    private static final int Q1 = 1;
-    private static final int Q2 = 2;
-    private static final int Q3 = 3;
+    private static final int Q1_TIME_QUANTUM = Constants.SCHEDULER_MULTILEVEL_FEEDBACK_QUEUE_Q1_TIME_QUANTUM;
+    private static final int Q2_TIME_QUANTUM = Constants.SCHEDULER_MULTILEVEL_FEEDBACK_QUEUE_Q2_TIME_QUANTUM;
+    private static final int Q1 = Constants.SCHEDULER_MULTILEVEL_FEEDBACK_QUEUE_Q1;
+    private static final int Q2 = Constants.SCHEDULER_MULTILEVEL_FEEDBACK_QUEUE_Q2;
+    private static final int Q3 = Constants.SCHEDULER_MULTILEVEL_FEEDBACK_QUEUE_Q3;
 
     private final FCFS q3;
     private final RoundRobin q2;
