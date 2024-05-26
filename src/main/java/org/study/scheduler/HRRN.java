@@ -41,18 +41,18 @@ public class HRRN implements Scheduler {
     @Override
     public SProcess peekReadyQ() {
         // 프로세스를 확인할 때마다 우선순위가 바뀌므로 항상 계산
-        SProcess min;
+        SProcess max;
         int time, temp;
 
-        min = readyQ.getFirst();
-        time = ((temp=min.getBurstTime() - min.getExecutionTime())+min.getWaitingTime())/temp;
+        max = readyQ.getFirst();
+        time = ((temp=max.getBurstTime() - max.getExecutionTime())+max.getWaitingTime())/temp;
         for(SProcess p: readyQ){
-            if (time > (temp = ((temp=min.getBurstTime() - min.getExecutionTime())+min.getWaitingTime())/temp)){
+            if (time < (temp = ((temp=p.getBurstTime() - p.getExecutionTime())+p.getWaitingTime())/temp)){
                 time = temp;
-                min = p;
+                max = p;
             }
         }
-        return min;
+        return max;
     }
 
     @Override
