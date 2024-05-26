@@ -74,6 +74,7 @@ public class MultilevelQueue implements Scheduler{
             return fcfs.peekReadyQ();
         }
         if(cntExecutionTime < executionTime) return fcfs.peekReadyQ();
+        if (roundRobin.readyQIsEmpty()) return peekReadyQ();
         return roundRobin.peekReadyQ();
     }
 
