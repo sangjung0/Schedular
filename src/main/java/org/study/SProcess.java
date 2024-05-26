@@ -21,7 +21,7 @@ public class SProcess {
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
         this.priority = priority;
-        responseTime = 0;
+        responseTime = -1;
         executionTime = 0;
         waitingTime = 0;
         turnaroundTime = 0;

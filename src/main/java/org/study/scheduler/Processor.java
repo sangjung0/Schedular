@@ -132,7 +132,7 @@ public class Processor {
      * @param runTime 프로세스 실행 시간
      */
     private void cpuCycle(int runTime){
-        if (currentProcess.getResponseTime() == 0) currentProcess.setResponseTime(cpuActivatedTime - currentProcess.getArrivalTime()); //리스폰스 타임
+        if (currentProcess.getResponseTime() < 0) currentProcess.setResponseTime(cpuActivatedTime - currentProcess.getArrivalTime()); //리스폰스 타임
         currentProcess.setExecutionTime(currentProcess.getExecutionTime() + runTime); // 실행 시간
         cpuActivatedTime += runTime;
     }
