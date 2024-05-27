@@ -26,6 +26,8 @@ public class RoundRobin implements Scheduler {
         this.timeQuantum = timeQuantum;
     }
 
+    protected int getTimeQuantum(){return timeQuantum;}
+
     @Override
     public int getRunTime(SProcess currentProcess) {
         int remainTime = currentProcess.getBurstTime() - currentProcess.getExecutionTime();
