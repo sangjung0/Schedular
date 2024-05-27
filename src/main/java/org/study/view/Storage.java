@@ -6,6 +6,7 @@ import org.study.SProcess;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * ArrayList<SProcess> 를 확장하는 리스트
@@ -57,6 +58,16 @@ public class Storage{
         clearGanttData();
         clearScheduled();
         processes.addAll(temp);
+    }
+
+    public void makeRandomData() {
+        clearProcesses();
+        clearGanttData();
+        clearScheduled();
+        Random random = new Random();
+        for(int i =0; i<random.nextInt(100); i++){
+            processes.add(new SProcess("p"+i, random.nextInt(100), random.nextInt(1000), random.nextInt(30)));
+        }
     }
 
     public static int averageResponseTime(ArrayList<SProcess> data){

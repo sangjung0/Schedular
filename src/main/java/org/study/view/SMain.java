@@ -3,10 +3,7 @@ package org.study.view;
 import org.study.Constants;
 import org.study.scheduler.*;
 import org.study.view.barChart.BarChart;
-import org.study.view.button.SAllRun;
-import org.study.view.button.SClear;
-import org.study.view.button.SOpenFile;
-import org.study.view.button.SRun;
+import org.study.view.button.*;
 import org.study.view.label.*;
 import org.study.view.table.SInputTable;
 import org.study.view.table.SOutputTable;
@@ -38,6 +35,7 @@ public class SMain extends JFrame {
     private final SRun run;
     private final SClear clear;
     private final SAllRun allRun;
+    private final SRandom random;
     private final STotalExecutionTime totalExecutionTime;
     private final SAverageWaitingTime averageWaitingTime;
     private final SContextSwitchCount contextSwitchCount;
@@ -61,6 +59,7 @@ public class SMain extends JFrame {
         comboBox = new SSchedulerSelector();
         clear = new SClear();
         allRun = new SAllRun();
+        random = new SRandom();
 
         init();
         setEvent();
@@ -90,6 +89,13 @@ public class SMain extends JFrame {
                 run(iter.next());
         });
         clear.setCallback(barChart::clear);
+        random.setCallback(()->{
+            storage.makeRandomData();
+            inputTable.reRandTable();
+            barChart.clear();
+            outputTable.reRandTable();
+            gantt.reRandGantt();
+        });
     }
 
     /**
@@ -151,6 +157,7 @@ public class SMain extends JFrame {
         // 버튼 그룹
         JPanel buttonGroup = new JPanel(new FlowLayout(FlowLayout.LEFT));
         buttonGroup.add(openFile);
+        buttonGroup.add(random);
         buttonGroup.add(clear);
         buttonGroup.add(comboBox);
         buttonGroup.add(run);

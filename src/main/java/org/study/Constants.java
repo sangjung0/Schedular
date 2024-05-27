@@ -9,7 +9,7 @@ public class Constants {
     // ----- Main -----
     public static final int WINDOW_X = 1000;
     public static final int WINDOW_Y = 1000;
-    public static final int WINDOW_WIDTH = 800;
+    public static final int WINDOW_WIDTH = 900;
     public static final int WINDOW_HEIGHT = 900;
     public static final int FRAME_PADDING = 20;
     public static final String TITLE = "Scheduler";
@@ -48,6 +48,7 @@ public class Constants {
     public static final String BUTTON_CHART_CLEAR= "Chart Clear";
     public static final String BUTTON_OPEN_FILE= "Open File";
     public static final String BUTTON_RUN= "Run";
+    public static final String BUTTON_RANDOM = "Random";
 
     // ----- Label ------
     public static final float LABEL_FONT_SIZE = 15.0F;
