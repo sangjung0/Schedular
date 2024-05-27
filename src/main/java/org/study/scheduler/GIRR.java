@@ -2,12 +2,12 @@ package org.study.scheduler;
 
 import org.study.SProcess;
 
-public class GradualIncreaseRoundRobin extends RoundRobin{
+public class GIRR extends RoundRobin{
 
     private static final int TIME_QUANTUM = 8;
     private static final int INCREASE_VALUE = 1;
 
-    public GradualIncreaseRoundRobin() {super(TIME_QUANTUM);}
+    public GIRR() {super(TIME_QUANTUM);}
 
     @Override
     public int getRunTime(SProcess currentProcess) {

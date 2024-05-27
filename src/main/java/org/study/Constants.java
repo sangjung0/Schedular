@@ -98,7 +98,7 @@ public class Constants {
             RoundRobin.class,
             SJF.class,
             SRTF.class,
-            GradualIncreaseRoundRobin.class
+            GIRR.class
     };
 
     public static final String[] SCHEDULE_ALGORITHM_TOOLTIP = {
