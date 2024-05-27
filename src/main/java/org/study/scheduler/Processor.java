@@ -66,7 +66,6 @@ public class Processor {
      *  - job Q에서 ready Q로 이동
      *  - 현재 프로세스 종료 여부 판단
      *  - 프로세스 선택
-     *  - 프로세스 실행 시간 측정
      *  - waiting time 조정
      *  - 문맥 교환 횟수 측정
      * @return 프로세스 실행 시간
