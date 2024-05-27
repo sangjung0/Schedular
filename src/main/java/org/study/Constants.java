@@ -48,7 +48,12 @@ public class Constants {
     public static final String BUTTON_CHART_CLEAR= "Chart Clear";
     public static final String BUTTON_OPEN_FILE= "Open File";
     public static final String BUTTON_RUN= "Run";
-    public static final String BUTTON_RANDOM = "Random";
+    public static final String BUTTON_RANDOM = "Completely Random";
+    public static final String BUTTON_INPUT_CLEAR = "Input Clear";
+    public static final String BUTTON_OUTPUT_CLEAR = "Output Clear";
+    public static final String BUTTON_LONG_BURST_RANDOM = "Long Burst Random";
+    public static final String BUTTON_SHORT_BURST_RANDOM = "Short Burst Random";
+    public static final String BUTTON_CLEAR = "Clear";
 
     // ----- Label ------
     public static final float LABEL_FONT_SIZE = 15.0F;

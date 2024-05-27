@@ -60,16 +60,20 @@ public class Storage{
         processes.addAll(temp);
     }
 
-    public void makeRandomData() {
+    private void makeRandomData(int minBurst, int maxBurst){
         clearProcesses();
         clearGanttData();
         clearScheduled();
         Random random = new Random();
-        int count = random.nextInt(1,20);
+        int count = random.nextInt(1,21);
         for(int i =0; i<count; i++){
-            processes.add(new SProcess("p"+i, random.nextInt(1,500), random.nextInt(1,500), random.nextInt(30)));
+            processes.add(new SProcess("p"+i, random.nextInt(1,101), random.nextInt(minBurst,maxBurst), random.nextInt(31)));
         }
+        
     }
+    public void makeRandomData() {makeRandomData(1, 501);}
+    public void makeShortBurstRandomData() {makeRandomData(1, 51);}
+    public void makeLongBurstRandomData() {makeRandomData(300, 501);}
 
     public static int averageResponseTime(ArrayList<SProcess> data){
         int sum = 0;

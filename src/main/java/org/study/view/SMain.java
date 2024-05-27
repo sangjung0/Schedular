@@ -28,38 +28,70 @@ public class SMain extends JFrame {
 
     private static final int THREE_LABEL_H_GAP = Constants.THREE_LABEL_H_GAP;
 
+    // 버튼 이름
+    private static final String BUTTON_RANDOM = Constants.BUTTON_RANDOM;
+    private static final String BUTTON_ALL_RUN = Constants.BUTTON_ALL_RUN;
+    private static final String BUTTON_CHART_CLEAR = Constants.BUTTON_CHART_CLEAR;
+    private static final String BUTTON_RUN = Constants.BUTTON_RUN;
+    private static final String BUTTON_INPUT_CLEAR = Constants.BUTTON_INPUT_CLEAR;
+    private static final String BUTTON_OUTPUT_CLEAR = Constants.BUTTON_OUTPUT_CLEAR;
+    private static final String BUTTON_LONG_BURST_RANDOM = Constants.BUTTON_LONG_BURST_RANDOM;
+    private static final String BUTTON_SHORT_BURST_RANDOM = Constants.BUTTON_SHORT_BURST_RANDOM;;
+    private static final String BUTTON_CLEAR = Constants.BUTTON_CLEAR;
+
+    private final Storage storage;
+    private final BarChart barChart;
+    private final Gantt gantt;
+
+    private final SSchedulerSelector comboBox;
+
     private final SInputTable inputTable;
     private final SOutputTable outputTable;
-    private final SOpenFile openFile;
-    private final SSchedulerSelector comboBox;
-    private final SRun run;
-    private final SClear clear;
-    private final SAllRun allRun;
-    private final SRandom random;
+
     private final STotalExecutionTime totalExecutionTime;
     private final SAverageWaitingTime averageWaitingTime;
     private final SContextSwitchCount contextSwitchCount;
-    private final Gantt gantt;
-    private final BarChart barChart;
 
-    private final Storage storage;
+    private final SOpenFile openFile;
+    private final SButton run;
+    private final SButton chartClear;
+    private final SButton allRun;
+    private final SButton random;
+    private final SButton inputClear;
+    private final SButton outputClear;
+    private final SButton longBurstRandom;
+    private final SButton shortBurstRandom;
+    private final SButton clear;
+
 
 
     public SMain(){
         storage = new Storage();
+        barChart = new BarChart();
+        gantt = new Gantt(storage.getGanttData());
+
+        comboBox = new SSchedulerSelector();
+
+        // 테이블
         inputTable = new SInputTable(storage.getProcesses());
         outputTable = new SOutputTable(storage.getScheduled());
-        openFile = new SOpenFile();
-        run = new SRun();
+
+        // 라벨
         totalExecutionTime = new STotalExecutionTime();
         averageWaitingTime = new SAverageWaitingTime();
         contextSwitchCount = new SContextSwitchCount();
-        gantt = new Gantt(storage.getGanttData());
-        barChart = new BarChart();
-        comboBox = new SSchedulerSelector();
-        clear = new SClear();
-        allRun = new SAllRun();
-        random = new SRandom();
+
+        // 버튼
+        openFile = new SOpenFile();
+        run = new SButton(BUTTON_RUN);
+        chartClear = new SButton(BUTTON_CHART_CLEAR);
+        allRun = new SButton(BUTTON_ALL_RUN);
+        random = new SButton(BUTTON_RANDOM);
+        inputClear = new SButton(BUTTON_INPUT_CLEAR);
+        outputClear = new SButton(BUTTON_OUTPUT_CLEAR);
+        longBurstRandom = new SButton(BUTTON_LONG_BURST_RANDOM);
+        shortBurstRandom = new SButton(BUTTON_SHORT_BURST_RANDOM);
+        clear = new SButton(BUTTON_CLEAR);
 
         init();
         setEvent();
@@ -69,6 +101,7 @@ public class SMain extends JFrame {
      * 각 버튼들 이벤트 설정
      */
     private void setEvent(){
+        // input
         openFile.setCallback(this, file -> {
             try{
                 storage.read(file);
@@ -82,13 +115,6 @@ public class SMain extends JFrame {
                 JOptionPane.showMessageDialog(this, Constants.FILE_CONTENT_FORMAT_IS_INCORRECT, Constants.ERROR_MESSAGE_BOX_TITLE, JOptionPane.ERROR_MESSAGE);
             }
         });
-        run.setCallback(()->run(comboBox.getSelected()));
-        allRun.setCallback(()->{
-            Iterator<Class<? extends Scheduler>> iter = comboBox.iterator();
-            while(iter.hasNext())
-                run(iter.next());
-        });
-        clear.setCallback(barChart::clear);
         random.setCallback(()->{
             storage.makeRandomData();
             inputTable.reRandTable();
@@ -96,6 +122,48 @@ public class SMain extends JFrame {
             outputTable.reRandTable();
             gantt.reRandGantt();
         });
+        shortBurstRandom.setCallback(()->{
+            storage.makeShortBurstRandomData();
+            inputTable.reRandTable();
+            barChart.clear();
+            outputTable.reRandTable();
+            gantt.reRandGantt();
+        });
+        longBurstRandom.setCallback(()->{
+            storage.makeLongBurstRandomData();
+            inputTable.reRandTable();
+            barChart.clear();
+            outputTable.reRandTable();
+            gantt.reRandGantt();
+        });
+
+        // run
+        run.setCallback(()->run(comboBox.getSelected()));
+        allRun.setCallback(()->{
+            Iterator<Class<? extends Scheduler>> iter = comboBox.iterator();
+            while(iter.hasNext())
+                run(iter.next());
+        });
+
+        //clear
+        clear.setCallback(()->{
+            storage.clearProcesses();
+            storage.clearGanttData();
+            storage.clearScheduled();
+            inputTable.reRandTable();
+            outputTable.reRandTable();
+            gantt.reRandGantt();
+            barChart.clear();
+        });
+        inputClear.setCallback(()->{
+            storage.clearProcesses();
+            inputTable.reRandTable();
+        });
+        outputClear.setCallback(()->{
+            storage.clearScheduled();
+            outputTable.reRandTable();
+        });
+        chartClear.setCallback(barChart::clear);
     }
 
     /**
@@ -154,49 +222,64 @@ public class SMain extends JFrame {
         JLabel output = new SOutput();
         JScrollPane outputPane = new JScrollPane(outputTable);
 
-        // 버튼 그룹
-        JPanel buttonGroup = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        buttonGroup.add(openFile);
-        buttonGroup.add(random);
-        buttonGroup.add(clear);
-        buttonGroup.add(comboBox);
-        buttonGroup.add(run);
-        buttonGroup.add(allRun);
+        // 입력 버튼 그룹
+        JPanel inputButtonGroup = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        inputButtonGroup.add(openFile);
+        inputButtonGroup.add(random);
+        inputButtonGroup.add(longBurstRandom);
+        inputButtonGroup.add(shortBurstRandom);
+
+        JPanel runButtonGroup = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        runButtonGroup.add(comboBox);
+        runButtonGroup.add(run);
+        runButtonGroup.add(allRun);
+
+        JPanel clearButtonGroup = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        clearButtonGroup.add(inputClear);
+        clearButtonGroup.add(outputClear);
+        clearButtonGroup.add(chartClear);
+        clearButtonGroup.add(clear);
 
         constraints.weightx = 1;
         constraints.fill = GridBagConstraints.BOTH;
         constraints.anchor = GridBagConstraints.NORTHWEST;
 
+        constraints.gridy = 0;
         add(input, constraints);
 
-        constraints.gridy = 1;
+        constraints.gridy++;
         constraints.weighty = 1;
         add(inputPane, constraints);
 
-        constraints.gridy = 2;
+        constraints.gridy++;
         constraints.weighty = 0;
         add(output, constraints);
 
-        constraints.gridy = 3;
+        constraints.gridy++;
         constraints.weighty = 1;
         add(outputPane, constraints);
 
-        constraints.gridy = 4;
+        constraints.gridy++;
         constraints.weighty = 0;
         add(outputGroup, constraints);
 
-        constraints.gridy = 5;
+        constraints.gridy++;
         constraints.weighty = 1;
         add(gantt, constraints);
 
-        constraints.gridy = 6;
+        constraints.gridy++;
         constraints.weighty = 3;
         add(barChart, constraints);
 
-        constraints.gridy = 7;
+        constraints.gridy++;
         constraints.weighty = 0;
-        add(buttonGroup, constraints);
+        add(inputButtonGroup, constraints);
 
+        constraints.gridy++;
+        add(runButtonGroup, constraints);
+
+        constraints.gridy++;
+        add(clearButtonGroup, constraints);
 
         setVisible(true);
     }
