@@ -76,8 +76,8 @@ public class SProcess {
     }
 
     public void setBurstTime(int burstTime) {
-        if(burstTime >= 0) this.burstTime = burstTime;
-        else throw new InvalidInputException(Constants.BURST_TIME_CANNOT_BE_NEGATIVE);
+        if(burstTime > 0) this.burstTime = burstTime;
+        else throw new InvalidInputException(Constants.BURST_TIME_MUST_BE_GREATER_THEN_0);
     }
 
     public void setPriority(int priority) {
