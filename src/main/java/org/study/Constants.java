@@ -117,9 +117,9 @@ public class Constants {
     public static final String ERROR_MESSAGE_BOX_TITLE = "Error";
 
     public static final String ARRIVAL_TIME_CANNOT_BE_NEGATIVE = "Arrival time cannot be negative";
-    public static final String BURST_TIME_CANNOT_BE_NEGATIVE = "Burst time cannot be negative";
+    public static final String BURST_TIME_MUST_BE_GREATER_THEN_0 = "Burst time Must be grater than 0";
     public static final String RESPONSE_TIME_CANNOT_BE_NEGATIVE = "Response time cannot be negative";
-    public static final String EXECUTION_TIME_CANNOT_BE_NEGATIVE = "Execution time cannot be negative";
+    public static final String EXECUTION_TIME_CANNOT_BE_NEGATIVE = "Execution time Must be greater than 0";
     public static final String WAITING_TIME_CANNOT_BE_NEGATIVE = "Waiting time cannot be negative";
     public static final String TURNAROUND_TIME_CANNOT_BE_NEGATIVE = "Turnaround time cannot be negative";
     public static final String FILE_DOES_NOT_EXIST = "File does Not exist.";
