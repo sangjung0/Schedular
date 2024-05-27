@@ -7,8 +7,8 @@ import java.awt.*;
 public class Constants {
 
     // ----- Main -----
-    public static final int WINDOW_X = 500;
-    public static final int WINDOW_Y = 500;
+    public static final int WINDOW_X = 1000;
+    public static final int WINDOW_Y = 1000;
     public static final int WINDOW_WIDTH = 800;
     public static final int WINDOW_HEIGHT = 900;
     public static final int FRAME_PADDING = 20;
@@ -96,7 +96,8 @@ public class Constants {
             MultilevelQueue.class,
             RoundRobin.class,
             SJF.class,
-            SRTF.class
+            SRTF.class,
+            GradualIncreaseRoundRobin.class
     };
 
     public static final String[] SCHEDULE_ALGORITHM_TOOLTIP = {
@@ -106,7 +107,8 @@ public class Constants {
             "\n멀티레벨큐\n",
             "\n라운드로빈\n",
             "\n짧은 잡 먼저\n",
-            "\n남은 짧은 시간 먼저\n"
+            "\n남은 짧은 시간 먼저\n",
+            "\n보수적 증가 라운드 로빈\n"
     };
 
     // ----- Error Message -----
