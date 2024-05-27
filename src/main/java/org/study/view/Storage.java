@@ -65,8 +65,9 @@ public class Storage{
         clearGanttData();
         clearScheduled();
         Random random = new Random();
-        for(int i =0; i<random.nextInt(100); i++){
-            processes.add(new SProcess("p"+i, random.nextInt(100), random.nextInt(1000), random.nextInt(30)));
+        int count = random.nextInt(1,20);
+        for(int i =0; i<count; i++){
+            processes.add(new SProcess("p"+i, random.nextInt(1,500), random.nextInt(1,500), random.nextInt(30)));
         }
     }
 
