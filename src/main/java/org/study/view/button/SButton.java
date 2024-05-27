@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 /**
  * JButton을 확장하는 추상클래스
  */
-public abstract class SButton extends JButton {
+public class SButton extends JButton {
 
     private ActionListener method;
 
@@ -24,6 +24,8 @@ public abstract class SButton extends JButton {
         // style
         setFont(getFont().deriveFont(Constants.BUTTON_FONT_SIZE));
     }
+
+    public SButton(String name){this(name, ()->{});}
 
     /**
      * 이벤트
