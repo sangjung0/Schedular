@@ -65,7 +65,7 @@ public class Storage{
         clearGanttData();
         clearScheduled();
         Random random = new Random();
-        int count = random.nextInt(1,21);
+        int count = random.nextInt(20,41);
         for(int i =0; i<count; i++){
             processes.add(new SProcess("p"+i, random.nextInt(1,101), random.nextInt(minBurst,maxBurst), random.nextInt(31)));
         }
