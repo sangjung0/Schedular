@@ -2,6 +2,9 @@ package org.study.scheduler;
 
 import org.study.SProcess;
 
+/**
+ * GIRR 스케줄러 구현
+ */
 public class GIRR extends RoundRobin{
 
     private static final int TIME_QUANTUM = 8;
@@ -26,6 +29,10 @@ public class GIRR extends RoundRobin{
         else super.addReadyQ(new GProcess(process));
     }
 
+    /**
+     * SProcess를 상속받은 GProcess. 속성 추가를 위해 구현함.
+     * 일관성 있는 처리를 위해 상속 구현 및 process를 멤버 변수로 가짐
+     */
     private static class GProcess extends SProcess {
 
         private int runCount;
