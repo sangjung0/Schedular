@@ -173,7 +173,7 @@ public class SMain extends JFrame {
      private void run(Class<? extends Scheduler> scheduler){
          try{
              if(storage.getProcesses().isEmpty()) return;
-             contextSwitchCount.setTime((new Processor(scheduler)).start(storage.newScheduled(), storage.newGanttData()));
+             contextSwitchCount.setTime((new CPU(scheduler)).start(storage.newScheduled(), storage.newGanttData()));
              outputTable.reRandTable();
              totalExecutionTime.setTime(Storage.totalExecutionTime(storage.getScheduled()));
              averageWaitingTime.setTime(Storage.averageWaitingTime(storage.getScheduled()));

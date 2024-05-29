@@ -13,7 +13,7 @@ import java.util.PriorityQueue;
  * 스케줄러 동작을 위한 Processor 모방 클래스
  * 객체 재사용을 권장하지 않음
  */
-public class Processor {
+public class CPU {
     private static final String WAIT = Constants.PROCESS_WAIT;
 
     protected final SProcess emptyProcess;
@@ -29,7 +29,7 @@ public class Processor {
      * Processor 생성. 전달 받은 스케줄러를 기반으로 동작
      * @param scheduler 스케줄러 클래스
      */
-    public <T extends Scheduler> Processor(Class<T> scheduler) throws Exception {
+    public <T extends Scheduler> CPU(Class<T> scheduler) throws Exception {
         this.scheduler = scheduler.getDeclaredConstructor().newInstance();
         emptyProcess = new SProcess(WAIT, 0, 1, 0, 0, 0, 0, 0);
         jobQ = new PriorityQueue<SProcess>(new ArrivalTimeComparator());
