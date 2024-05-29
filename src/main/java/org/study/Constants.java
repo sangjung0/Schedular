@@ -107,14 +107,14 @@ public class Constants {
     };
 
     public static final String[] SCHEDULE_ALGORITHM_TOOLTIP = {
-            "\n선입선출\n",
-            "\n에이징\n",
-            "\n멀티레벨피드백큐\n",
-            "\n멀티레벨큐\n",
-            "\n라운드로빈\n",
-            "\n짧은 잡 먼저\n",
-            "\n남은 짧은 시간 먼저\n",
-            "\n보수적 증가 라운드 로빈\n"
+            "\nFirst In First Out (FIFO)\nFIFO scheduling algorithm assigns priority to processes in the order they arrive. It is simple and effective for jobs with similar demands.\n",
+            "\nAging\nAging is a technique used to prevent starvation in scheduling. It gradually increases the priority of older tasks, ensuring that they get processed eventually.\n",
+            "\nMultilevel Feedback Queue\nThis algorithm allows a process to move between different queues based on its behavior and requirement. It helps in efficiently managing CPU scheduling with a combination of aging and priority.\n",
+            "\nMultilevel Queue\nMultilevel Queue scheduling assigns processes to different queues based on their priority level. Processes are permanently placed in one queue, typically based on the type of process.\n",
+            "\nRound Robin\nRound Robin scheduling assigns a fixed time unit per process and cycles through them. It is especially effective for time-sharing systems.\n",
+            "\nShortest Job First\nThis algorithm picks the process with the smallest execution time, which helps to minimize overall time for completion but can lead to starvation of longer processes.\n",
+            "\nShortest Remaining Time First\nSimilar to Shortest Job First, this algorithm dynamically schedules tasks based on the shortest remaining time. It is more responsive but can be complex to implement.\n",
+            "\nGradually Increasing Round Robin\nThis variation of Round Robin increases the time slice for processes incrementally, which can better accommodate processes that need more time to complete.\n"
     };
 
     // ----- Error Message -----
