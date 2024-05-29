@@ -65,7 +65,7 @@ public class SOpenFile extends SButton{
 
         @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser(new File(System.getProperty("user.dir"),"/src/main/resources"));
+                JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
                 fileChooser.setAcceptAllFileFilterUsed(false);
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("TXT files", "txt");
                 fileChooser.addChoosableFileFilter(filter);
